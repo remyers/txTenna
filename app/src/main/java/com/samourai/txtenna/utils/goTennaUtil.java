@@ -36,6 +36,7 @@ public class goTennaUtil implements GTConnectionListener {
     private static final int SCAN_TIMEOUT = 25000; // 25 seconds
 
     private static final String GOTENNA_APP_TOKEN = "[ --- REDACTED ---]";
+    public static final long TXTENNA_GATEWAY_GID = 2573394689L;
 
     private static goTennaUtil instance = null;
 
@@ -181,9 +182,15 @@ public class goTennaUtil implements GTConnectionListener {
     }
 
     public void connect(NetworkingActivity activity, int region) {
-        // set new random GID every time we connect to a goTenna device
-        long gid = abs(new SecureRandom().nextLong()) % 9999999999L;
-        setGID(gid);
+        if (ConnectivityStatus.hasConnectivity(context)) {
+            // if connected to the internet, use the gateway GID
+            setGID(TXTENNA_GATEWAY_GID);
+        }
+        else {
+            // otherwise, use a new random GID every time we connect to a goTenna device
+            long gid = abs(new SecureRandom().nextLong()) % 9999999999L;
+            setGID(gid);
+        }
 
         callbackActivity = activity;
         regionIndex = region;

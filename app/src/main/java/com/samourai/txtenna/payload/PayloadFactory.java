@@ -344,10 +344,10 @@ public class PayloadFactory {
                         SendMessageInteractor smi = new SendMessageInteractor();
                         final long gid = goTennaUtil.getGID();
                         Message messageToSend = Message.createReadyToSendMessage(gid,
-                                GIDManager.SHOUT_GID,
+                                goTennaUtil.TXTENNA_GATEWAY_GID,
                                 s);
 
-                        smi.sendBroadcastMessage(messageToSend,
+                        smi.sendMessage(messageToSend, false,
                                 new SendMessageInteractor.SendMessageListener()
                                 {
                                     @Override
